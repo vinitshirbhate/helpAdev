@@ -1,19 +1,21 @@
-import { auth } from "@/auth";
-import { SignIn } from "@/components/sign-in";
-import { SignOut } from "@/components/sign-out";
 import { database } from "@/db/database";
+
 export default async function Home() {
-  const items = await database.query.index.findMany();
-  const session = await auth();
-  if (!session?.user) return null;
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {session ? <SignOut /> : <SignIn />}
-      {session.user.name}
-      <div>hello world</div>
-      {items.map((item) => {
-        return <div key={item.id}>{item.id}</div>;
-      })}
-    </main>
-  );
+  try {
+    const rooms = await database.query.room.findMany();
+
+    return (
+      <main className="flex min-h-screen flex-row items-center justify-between p-24">
+        {rooms.map((room) => (
+          <div key={room.name}>{room.name}</div>
+        ))}
+        <div>hello world</div>
+      </main>
+    );
+  } catch (error) {
+    console.error("Error in Home component:", error);
+    return (
+      <div className="flex  flex-col items-center justify-between p-24">{`Something went wrong${error}`}</div>
+    );
+  }
 }
