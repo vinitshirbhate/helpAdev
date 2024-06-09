@@ -1,15 +1,61 @@
-import { database } from "@/db/database";
-
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Room } from "@/db/schema";
+import { Github } from "lucide-react";
+import getRooms from "@/data-access/room";
+function RoomCard({ room }: { room: Room }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{room.name}</CardTitle>
+        <CardDescription>{room.description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {room.githubRepo && (
+          <Link
+            href={room.githubRepo}
+            className="flex gap-2 items-center"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github />
+            Github Repo
+          </Link>
+        )}
+      </CardContent>
+      <CardFooter>
+        <Button asChild>
+          <Link href={`/room/${room.userId}`}> Join Room</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
 export default async function Home() {
   try {
-    const rooms = await database.query.room.findMany();
-
+    const rooms = await getRooms();
     return (
-      <main className="flex min-h-screen flex-row items-center justify-between p-24">
-        {rooms.map((room) => (
-          <div key={room.name}>{room.name}</div>
-        ))}
-        <div>hello world</div>
+      <main className="flex min-h-screen flex-col p-16">
+        <div className="flex justify-between items-center w-full mb-8">
+          <h1 className="text-4xl">Find Dev Room</h1>
+          <Button asChild>
+            <Link href="/create-room">Create Room</Link>
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
+          {rooms.map((room) => (
+            <RoomCard key={room.userId} room={room} />
+          ))}
+        </div>
       </main>
     );
   } catch (error) {

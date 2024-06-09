@@ -83,15 +83,13 @@ export const authenticators = pgTable(
   })
 );
 
-export const index = pgTable("index", {
-  id: serial("id").primaryKey(),
-});
-
 export const room = pgTable("room", {
   userId: text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
+    .references(() => users.id, { onDelete: "cascade" })
+    .primaryKey(),
   name: text("name").notNull(),
+  description: text("description"),
   language: text("language").notNull(),
   githubRepo: text("githubRepo"),
 });

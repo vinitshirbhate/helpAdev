@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { Button } from "./ui/button";
+import { LogInIcon, LogOutIcon } from "lucide-react";
 
 export function SignIn() {
   return (
@@ -9,7 +9,13 @@ export function SignIn() {
         await signIn("google");
       }}
     >
-      <Button type="submit">Signin with Google</Button>
+      <button
+        className="flex text-lg items-center justify-center gap-1"
+        type="submit"
+      >
+        <LogInIcon />
+        Signin with Google
+      </button>
     </form>
   );
 }
