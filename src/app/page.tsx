@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Room } from "@/db/schema";
 import { Github } from "lucide-react";
-import getRooms from "@/data-access/room";
+import { getRooms } from "@/data-access/room";
+import { TagList, splitTags } from "@/components/TagsList";
 function RoomCard({ room }: { room: Room }) {
   return (
     <Card>
@@ -30,10 +31,13 @@ function RoomCard({ room }: { room: Room }) {
             Github Repo
           </Link>
         )}
+        <div className="mt-3">
+          <TagList languages={splitTags(room.language)} />
+        </div>
       </CardContent>
       <CardFooter>
         <Button asChild>
-          <Link href={`/room/${room.userId}`}> Join Room</Link>
+          <Link href={`/rooms/${room.userId}`}> Join Room</Link>
         </Button>
       </CardFooter>
     </Card>

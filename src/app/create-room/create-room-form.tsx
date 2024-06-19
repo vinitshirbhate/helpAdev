@@ -97,13 +97,15 @@ const CreateRoomForm = () => {
           name="language"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Primary Programming Language</FormLabel>
+              <FormLabel>Tags</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  {...field}
+                  placeholder="typescript,drizzle-orm,next.js"
+                />
               </FormControl>
               <FormDescription>
-                Please put Which Primary Programming Language you are using in
-                this project
+                List the technologies used in your project
               </FormDescription>
               <FormMessage />
             </FormItem>
