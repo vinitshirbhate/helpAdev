@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,7 +25,9 @@ async function AccountDropDown() {
         <Button variant={"link"}>
           <Avatar className="mr-2">
             <AvatarImage src={session?.user?.image ?? ""} />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>
+              <UserRound />
+            </AvatarFallback>
           </Avatar>
           {session?.user?.name}
         </Button>

@@ -3,8 +3,18 @@ import { Github } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { TagList, splitTags } from "@/components/TagsList";
+import { HelpADevVideoPlayer } from "./video-player";
+import { auth } from "@/auth";
 
 export default async function page(props: any) {
+  const session = await auth();
+  if (!session || !session.user) {
+    return;
+  }
+  const userId = session.user.id;
+  if (!userId) {
+    return;
+  }
   const roomId = props.params.roomid;
   const room = await getRoom(roomId);
   if (!room) {
@@ -15,7 +25,7 @@ export default async function page(props: any) {
     <div className="grid grid-cols-4 ">
       <div className="col-span-3 p-4">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-          Video player
+          <HelpADevVideoPlayer room={room} userId={userId} />
         </div>
       </div>
       <div className="col-span-1 p-4 ">
