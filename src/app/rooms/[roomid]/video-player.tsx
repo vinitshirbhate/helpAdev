@@ -13,15 +13,16 @@ import {
 } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 import { genrateTokenAction } from "./actions";
+import { Session } from "next-auth";
 
 const apiKey = process.env.NEXT_PUBLIC_GET_STREAM_API_KEY!;
 
 export const HelpADevVideoPlayer = ({
   room,
-  userId,
+  session,
 }: {
   room: Room;
-  userId: string;
+  session: Session;
 }) => {
   if (!room) {
     return;
@@ -30,6 +31,10 @@ export const HelpADevVideoPlayer = ({
   const [call, setCall] = useState<Call | null>(null);
 
   useEffect(() => {
+    if (!session || !session.user) {
+      return;
+    }
+    const userId = session.user.id;
     if (!userId) {
       return;
     }
@@ -38,6 +43,8 @@ export const HelpADevVideoPlayer = ({
       apiKey,
       user: {
         id: userId,
+        name: session.user.name ?? "Unknown",
+        image: session.user.image ?? undefined,
       },
       tokenProvider: () => genrateTokenAction(),
     });
@@ -50,7 +57,7 @@ export const HelpADevVideoPlayer = ({
       call.leave();
       client.disconnectUser();
     };
-  }, [userId, room]);
+  }, [session, room]);
 
   return (
     client &&

@@ -11,10 +11,7 @@ export default async function page(props: any) {
   if (!session || !session.user) {
     return;
   }
-  const userId = session.user.id;
-  if (!userId) {
-    return;
-  }
+
   const roomId = props.params.roomid;
   const room = await getRoom(roomId);
   if (!room) {
@@ -25,7 +22,7 @@ export default async function page(props: any) {
     <div className="grid grid-cols-4 ">
       <div className="col-span-3 p-4">
         <div className="rounded-lg border bg-card text-card-foreground shadow-sm p-6">
-          <HelpADevVideoPlayer room={room} userId={userId} />
+          <HelpADevVideoPlayer room={room} session={session} />
         </div>
       </div>
       <div className="col-span-1 p-4 ">
