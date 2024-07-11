@@ -5,6 +5,7 @@ import { Room } from "@/db/schema";
 import {
   Call,
   CallControls,
+  CallParticipantsList,
   SpeakerLayout,
   StreamCall,
   StreamTheme,
@@ -14,6 +15,7 @@ import {
 import { useEffect, useState } from "react";
 import { genrateTokenAction } from "./actions";
 import { Session } from "next-auth";
+import { useRouter } from "next/navigation";
 
 const apiKey = process.env.NEXT_PUBLIC_GET_STREAM_API_KEY!;
 
@@ -29,6 +31,7 @@ export const HelpADevVideoPlayer = ({
   }
   const [client, setClient] = useState<StreamVideoClient | null>(null);
   const [call, setCall] = useState<Call | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!session || !session.user) {
@@ -54,8 +57,10 @@ export const HelpADevVideoPlayer = ({
     setCall(call);
 
     return () => {
-      call.leave();
-      client.disconnectUser();
+      call
+        .leave()
+        .then(() => client.disconnectUser())
+        .catch(console.error);
     };
   }, [session, room]);
 
@@ -66,7 +71,8 @@ export const HelpADevVideoPlayer = ({
         <StreamTheme>
           <StreamCall call={call}>
             <SpeakerLayout />
-            <CallControls />
+            <CallControls onLeave={() => router.push("/")} />
+            <CallParticipantsList onClose={() => undefined} />
           </StreamCall>
         </StreamTheme>
       </StreamVideo>

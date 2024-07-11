@@ -13,7 +13,7 @@ export function SignIn() {
         className="flex text-lg items-center justify-center gap-1"
         type="submit"
       >
-        <LogInIcon />
+        <LogOutIcon />
         Signin with Google
       </button>
     </form>

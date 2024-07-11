@@ -2,9 +2,10 @@ import { getRoom } from "@/data-access/room";
 import { Github } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { TagList, splitTags } from "@/components/TagsList";
+import { TagList } from "@/components/TagsList";
 import { HelpADevVideoPlayer } from "./video-player";
 import { auth } from "@/auth";
+import { splitTags } from "@/lib/utils";
 
 export default async function page(props: any) {
   const session = await auth();

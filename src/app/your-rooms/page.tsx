@@ -1,31 +1,23 @@
-import { RoomCard } from "@/components/RoomCard";
 import { Button } from "@/components/ui/button";
-import { getRooms } from "@/data-access/room";
+import { getUserRooms } from "@/data-access/room";
 import Link from "next/link";
-import { SearchBar } from "./SearchBar";
+import { UserRoomCard } from "./User-RoomCard";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { search: string };
-}) {
+export default async function YourRooms() {
   try {
-    const rooms = await getRooms(searchParams.search);
+    const rooms = await getUserRooms();
     return (
       <main className="flex min-h-screen flex-col p-16">
         <div className="flex justify-between items-center w-full mb-8">
-          <h1 className="text-4xl">Find Dev Room</h1>
+          <h1 className="text-4xl">Your Rooms</h1>
           <Button asChild>
             <Link href="/create-room">Create Room</Link>
           </Button>
         </div>
-        <div className="mb-6 mt-[-7]">
-          <SearchBar />
-        </div>
 
         <div className="grid grid-cols-3 gap-4">
           {rooms.map((room) => (
-            <RoomCard key={room.id} room={room} />
+            <UserRoomCard key={room.id} room={room} />
           ))}
         </div>
       </main>

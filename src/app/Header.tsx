@@ -62,6 +62,14 @@ const Header = async () => {
           <Image width="40" height="40" src="/help_a_dev.png" alt="" />
           HelpADev
         </Link>
+        <div>
+          <Link
+            className="text-lg font-semibold hover:underline"
+            href="/your-rooms"
+          >
+            Your Rooms
+          </Link>
+        </div>
         <div className="flex flex-row justify-between items-center gap-2">
           <AccountDropDown />
           <ModeToggle />

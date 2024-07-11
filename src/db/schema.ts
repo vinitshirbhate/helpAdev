@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   timestamp,
@@ -6,6 +7,7 @@ import {
   primaryKey,
   integer,
   serial,
+  uuid,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -84,10 +86,13 @@ export const authenticators = pgTable(
 );
 
 export const room = pgTable("room", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .notNull()
+    .primaryKey(),
   userId: text("userId")
     .notNull()
-    .references(() => users.id, { onDelete: "cascade" })
-    .primaryKey(),
+    .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   language: text("language").notNull(),
