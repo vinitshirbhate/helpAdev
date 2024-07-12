@@ -14,15 +14,13 @@ export async function editRoomAction(roomData: Omit<Room, "userId">) {
   }
 
   const room = await getRoom(roomData.id);
-  try {
-    if (room?.userId !== session.user.id) {
-      throw new Error("User is not authorized");
-    }
-
-    await editRoom({ ...roomData, userId: room.userId });
-    revalidatePath("/your-rooms");
-    redirect("/your-rooms");
-  } catch (error) {
-    console.error("Error in editRoomAction:", error);
+  if (room?.userId !== session.user.id) {
+    throw new Error("User is not authorized");
   }
+
+  await editRoom({ ...roomData, userId: room.userId });
+
+  revalidatePath("/your-rooms");
+  revalidatePath("edit-room/" + roomData.id);
+  redirect("/your-rooms");
 }

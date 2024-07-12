@@ -38,7 +38,7 @@ const CreateRoomForm = () => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     await createRoomAction(values);
-    router.push("/");
+    router.push("/your-rooms");
   }
 
   return (

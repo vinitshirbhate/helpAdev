@@ -28,7 +28,7 @@ export async function getUserRooms() {
 export async function getRoom(roomId: string) {
   unstable_noStore();
   return await database.query.room.findFirst({
-    where: eq(room.userId, roomId),
+    where: eq(room.id, roomId),
   });
 }
 

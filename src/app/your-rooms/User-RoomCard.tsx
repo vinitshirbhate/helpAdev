@@ -31,7 +31,7 @@ export function UserRoomCard({ room }: { room: Room }) {
     <Card>
       <CardHeader className="relative">
         <Button size="icon" className="absolute right-6 top-6">
-          <Link href={`/edit-room/${room.userId}`}>
+          <Link href={`/edit-room/${room.id}`}>
             <PencilIcon />
           </Link>
         </Button>
@@ -56,7 +56,7 @@ export function UserRoomCard({ room }: { room: Room }) {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button asChild>
-          <Link href={`/rooms/${room.userId}`}> Join Room</Link>
+          <Link href={`/rooms/${room.id}`}> Join Room</Link>
         </Button>
 
         <AlertDialog>
