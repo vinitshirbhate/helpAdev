@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SearchBar } from "./SearchBar";
 import { auth } from "@/auth";
 import { redirect, useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default async function Home({
   searchParams,
@@ -36,6 +37,17 @@ export default async function Home({
             <RoomCard key={room.id} room={room} />
           ))}
         </div>
+        {rooms.length === 0 && (
+          <div className="flex justify-center items-center flex-col mt-20">
+            <Image
+              src="/no-data.svg"
+              alt="empty state"
+              width={400}
+              height={400}
+            />
+            <h2 className="text-2xl">No rooms found,make your first one!</h2>
+          </div>
+        )}
       </main>
     );
   } catch (error) {

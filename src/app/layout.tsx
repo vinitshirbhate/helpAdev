@@ -3,6 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "./Header";
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Help A Dev",
@@ -27,6 +28,7 @@ export default function RootLayout({
           <Header />
 
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

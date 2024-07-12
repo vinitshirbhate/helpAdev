@@ -4,6 +4,7 @@ import { Room, room } from "@/db/schema";
 import { database } from "@/db/database";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
+import { createRoom } from "@/data-access/room";
 
 export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
   const session = await auth();
@@ -13,6 +14,8 @@ export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
 
   const userId: string = session.user.id;
 
-  await database.insert(room).values({ ...roomData, userId });
+  const room = await createRoom(roomData, userId);
+
   revalidatePath("/");
+  return room;
 }

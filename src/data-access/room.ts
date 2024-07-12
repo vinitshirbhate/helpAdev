@@ -32,11 +32,27 @@ export async function getRoom(roomId: string) {
   });
 }
 
+export async function createRoom(
+  roomData: Omit<Room, "id" | "userId">,
+  userId: string
+) {
+  const inserted = await database
+    .insert(room)
+    .values({ ...roomData, userId })
+    .returning();
+  return inserted[0];
+}
+
 export async function deleteRoom(roomId: string) {
   unstable_noStore();
   await database.delete(room).where(eq(room.id, roomId));
 }
 
 export async function editRoom(roomData: Room) {
-  await database.update(room).set(roomData).where(eq(room.id, roomData.id));
+  const updated = await database
+    .update(room)
+    .set(roomData)
+    .where(eq(room.id, roomData.id))
+    .returning();
+  return updated[0];
 }

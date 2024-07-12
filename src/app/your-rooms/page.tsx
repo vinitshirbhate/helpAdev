@@ -4,6 +4,7 @@ import Link from "next/link";
 import { UserRoomCard } from "./User-RoomCard";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 export default async function YourRooms() {
   const session = await auth();
@@ -28,6 +29,17 @@ export default async function YourRooms() {
             <UserRoomCard key={room.id} room={room} />
           ))}
         </div>
+        {rooms.length === 0 && (
+          <div className="flex justify-center items-center flex-col mt-20">
+            <Image
+              src="/no-data.svg"
+              alt="empty state"
+              width={400}
+              height={400}
+            />
+            <h2 className="text-2xl">make your first one!</h2>
+          </div>
+        )}
       </main>
     );
   } catch (error) {
