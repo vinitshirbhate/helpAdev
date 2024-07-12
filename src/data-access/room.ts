@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { database } from "@/db/database";
-import { room } from "@/db/schema";
+import { Room, room } from "@/db/schema";
 import { eq, like } from "drizzle-orm";
 import { unstable_noStore } from "next/cache";
 
@@ -35,4 +35,8 @@ export async function getRoom(roomId: string) {
 export async function deleteRoom(roomId: string) {
   unstable_noStore();
   await database.delete(room).where(eq(room.id, roomId));
+}
+
+export async function editRoom(roomData: Room) {
+  await database.update(room).set(roomData).where(eq(room.id, roomData.id));
 }

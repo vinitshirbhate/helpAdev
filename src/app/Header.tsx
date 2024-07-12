@@ -51,9 +51,8 @@ async function AccountDropDown() {
 
 const Header = async () => {
   const session = await auth();
-
   return (
-    <header className=" bg-gray-200 py-4 dark:bg-gray-800 px-24">
+    <header className=" bg-gray-200 py-4 dark:bg-gray-800 px-24 relative z-10">
       <div className="flex justify-between items-center">
         <Link
           href="/"
@@ -63,12 +62,22 @@ const Header = async () => {
           HelpADev
         </Link>
         <div>
-          <Link
-            className="text-lg font-semibold hover:underline"
-            href="/your-rooms"
-          >
-            Your Rooms
-          </Link>
+          {session?.user && (
+            <div className="flex justify-center items-center gap-5">
+              <Link
+                className="text-lg font-semibold hover:underline"
+                href="/browse"
+              >
+                Browse
+              </Link>
+              <Link
+                className="text-lg font-semibold hover:underline"
+                href="/your-rooms"
+              >
+                Your Rooms
+              </Link>
+            </div>
+          )}
         </div>
         <div className="flex flex-row justify-between items-center gap-2">
           <AccountDropDown />

@@ -1,31 +1,39 @@
+import { RoomCard } from "@/components/RoomCard";
 import { Button } from "@/components/ui/button";
-import { getUserRooms } from "@/data-access/room";
+import { getRooms } from "@/data-access/room";
 import Link from "next/link";
-import { UserRoomCard } from "./User-RoomCard";
+import { SearchBar } from "./SearchBar";
 import { auth } from "@/auth";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
-export default async function YourRooms() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { search: string };
+}) {
   const session = await auth();
 
   if (!session || !session.user || !session.user.id) {
     redirect("/api/auth/signin");
   }
-
   try {
-    const rooms = await getUserRooms();
+    const rooms = await getRooms(searchParams.search);
+
     return (
       <main className="flex min-h-screen flex-col p-16">
         <div className="flex justify-between items-center w-full mb-8">
-          <h1 className="text-4xl">Your Rooms</h1>
+          <h1 className="text-4xl">Find Dev Room</h1>
           <Button asChild>
             <Link href="/create-room">Create Room</Link>
           </Button>
         </div>
+        <div className="mb-6 mt-[-7]">
+          <SearchBar />
+        </div>
 
         <div className="grid grid-cols-3 gap-4">
           {rooms.map((room) => (
-            <UserRoomCard key={room.id} room={room} />
+            <RoomCard key={room.id} room={room} />
           ))}
         </div>
       </main>

@@ -5,7 +5,7 @@ import { database } from "@/db/database";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 
-export async function createRoomAction(roomData: Omit<Room, "userId">) {
+export async function createRoomAction(roomData: Omit<Room, "id" | "userId">) {
   const session = await auth();
   if (!session || !session.user || !session.user.id) {
     throw new Error("User is not authenticated");
