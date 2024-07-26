@@ -21,7 +21,7 @@ export default function LAndingPage() {
           <div className="text-center">
             <Image
               className="inline-block rounded-2xl"
-              src="/help_a_dev.png"
+              src="/logo.png"
               alt="help a dev"
               width="200"
               height="200"

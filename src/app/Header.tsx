@@ -58,7 +58,7 @@ const Header = async () => {
           href="/"
           className="flex items-center gap-4 text-xl hover:underline"
         >
-          <Image width="40" height="40" src="/help_a_dev.png" alt="" />
+          <Image width="40" height="40" src="/logo.png" alt="" />
           HelpADev
         </Link>
         <div>
