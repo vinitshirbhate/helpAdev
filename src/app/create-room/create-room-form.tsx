@@ -11,12 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createRoomAction } from "./actions";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1).max(50),
@@ -26,6 +27,7 @@ const formSchema = z.object({
 });
 
 const CreateRoomForm = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -39,12 +41,23 @@ const CreateRoomForm = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const room = await createRoomAction(values);
-    toast({
-      title: "Room Created",
-      description: "Your room has been created",
-    });
-    router.push(`/rooms/${room.id}`);
+    setLoading(true);
+    try {
+      const room = await createRoomAction(values);
+      router.push(`/rooms/${room.id}`);
+      toast({
+        title: "Room Created",
+        description: "Your room has been created",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while creating the room",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -117,7 +130,9 @@ const CreateRoomForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Creating..." : "Submit"}
+        </Button>
       </form>
     </Form>
   );
